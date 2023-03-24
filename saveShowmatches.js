@@ -19,30 +19,31 @@ const specificPagesTest = [
 ];
 manuallyCachePages();
 
-// const readline = require("node:readline/promises");
-// const { stdin: input, stdout: output } = require("node:process");
+/// WRITE CACHE TO FILE ON EXIT
+process.stdin.resume();
 
-// const rl = readline.createInterface({ input, output });
+function exitHandler(options, err) {
+  writeCacheToFile();
+  process.exit();
+}
 
-// rl.on("SIGINT", () => {
-//   // rl.question("Are you sure you want to exit? ", (answer) => {
-//   //   if (answer.match(/^y(es)?$/i)) rl.pause();
-//   // });
+//do something when app is closing
+process.on("exit", exitHandler.bind(null, { cleanup: true }));
 
-//   console.log(`caching ${Object.keys(cachedPages).length} pages to file...`);
-//   if (Object.keys(cachedPages).length <= 0) return;
-//   writeCacheToFile();
-//   rl.pause();
-//   process.exit();
-// });
+//catches ctrl+c event
+process.on("SIGINT", exitHandler.bind(null, { exit: true }));
 
+//catches uncaught exceptions
+process.on("uncaughtException", exitHandler.bind(null, { exit: true }));
+
+// FUNCTIONS
 async function manuallyCachePages(onlySpecificPages = []) {
-  console.log("caching pages...");
   const response = await fetch(
     `https://liquipedia.net/rocketleague/api.php?action=parse&format=json&prop=text&page=JohnnyBoi_i/Broadcasts`
   );
   const text = await response.json();
   const dom = new jsdom.JSDOM(`${text.parse.text["*"]}`);
+
   const pagesToCache = [
     ...dom.window.document
       .querySelector(".table-responsive")
@@ -59,6 +60,7 @@ async function manuallyCachePages(onlySpecificPages = []) {
         (onlySpecificPages.length > 0 ? onlySpecificPages.includes(page) : true)
     );
 
+  console.log(`caching ${pagesToCache.length} pages...`);
   // start queue to rechache all pages in cachedPages
   const queue = pagesToCache;
 
@@ -99,7 +101,7 @@ function writeCacheToFile() {
 }
 
 function cachePage(page) {
-  console.log("caching page:", page);
+  console.log("\ncaching page:", page);
   if (!page) return;
 
   getDataFromLiquipedia(page).then((data) => {
@@ -174,7 +176,10 @@ function getBracketInfo(dom) {
         .nextSibling.textContent;
       const map = game.querySelector(".brkts-popup-spaced").nextSibling
         .textContent;
-      return [parseInt(scoreLeft), map, parseInt(scoreRight)];
+      return {
+        scores: [parseInt(scoreLeft), parseInt(scoreRight)],
+        map,
+      };
     });
 
     const date = bracketBody.querySelector(
@@ -182,12 +187,14 @@ function getBracketInfo(dom) {
     ).textContent;
 
     bracketInfo.push({
-      participants: [...bracketPlayers].map((p) => [
-        p
-          .querySelector("span[data-highlightingclass]")
-          ?.getAttribute("data-highlightingclass"),
-        p.textContent,
-      ]),
+      participants: [...bracketPlayers].map((p) => {
+        return {
+          teamId: p
+            .querySelector("span[data-highlightingclass]")
+            ?.getAttribute("data-highlightingclass"),
+          name: p.textContent,
+        };
+      }),
       games: gameScores,
       date,
     });
