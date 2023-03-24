@@ -25,7 +25,7 @@ I use [jsonbin.io](https://jsonbin.io/) to host the json file that is generated 
 
 Before, I was planning on running the server myself and just saving the cached data to a file on every github commit, so then I could access that data remotely via github link, but I wanted to make it run on it's own so I can access the data a little more seamlessly.
 
-## Usage
+## API Usage
 
 My current solution for displaying this information on a website is fetching the json file from [jsonbin.io](https://jsonbin.io/) and parsing the file in my front-end application.
 
@@ -50,7 +50,24 @@ async function getData() {
       "teamInfo": [], // this includes team info if found
       "bracketInfo": [
         {
-          "participants": [{ "name": "Daniel" }, { "name": "Evoh" }],
+          "participants": [
+            {
+              "name": "Daniel",
+              "flag": {
+                "link": "https://flagcdn.com/us.svg",
+                "alt": "United States",
+                "backlink": "https://flagpedia.net"
+              }
+            },
+            {
+              "name": "Evoh",
+              "flag": {
+                "link": "https://flagcdn.com/us.svg",
+                "alt": "United States",
+                "backlink": "https://flagpedia.net"
+              }
+            }
+          ],
           "games": [
             { "scores": [4, 0], "map": "Mannfield (Night)" },
             { "scores": [2, 3], "map": "Mannfield (Night)" },
