@@ -241,15 +241,28 @@ function getBracketInfo(dom) {
       ".match-countdown-block"
     ).textContent;
 
+    const participants = [...bracketPlayers].map((p) => {
+      const flagEl = p.querySelector("img");
+      const isoCountryCode = flagEl
+        ?.getAttribute("src")
+        .split("_")[0]
+        .slice(-2)
+        .toLowerCase();
+      return {
+        teamId: p
+          .querySelector("span[data-highlightingclass]")
+          ?.getAttribute("data-highlightingclass"),
+        name: p.textContent,
+        flag: {
+          link: `https://flagcdn.com/${isoCountryCode}.svg`,
+          alt: flagEl?.getAttribute("alt"),
+          backlink: `https://flagpedia.net`,
+        },
+      };
+    });
+
     bracketInfo.push({
-      participants: [...bracketPlayers].map((p) => {
-        return {
-          teamId: p
-            .querySelector("span[data-highlightingclass]")
-            ?.getAttribute("data-highlightingclass"),
-          name: p.textContent,
-        };
-      }),
+      participants,
       games: gameScores,
       date,
     });
