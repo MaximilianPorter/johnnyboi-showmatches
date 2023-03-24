@@ -11,7 +11,7 @@ const {
 // limit requests
 const limiter = rateLimit({
   windowMs: 1000, // 1 second
-  max: 1, // limit each IP to 1 request per second
+  max: 2, // limit each IP to 2 requests per second
 
   // message to send when limit is reached
   message: {
@@ -20,8 +20,9 @@ const limiter = rateLimit({
   },
 });
 
-app.use(limiter);
 app.use(cors());
+app.use(express.static(`${__dirname}/public`));
+app.use(limiter);
 
 // restrict access to api through origin
 // app.use("/api", (req, res, next) => {
@@ -36,11 +37,11 @@ app.use(cors());
 // });
 
 // cache data
-cacheData();
+// cacheData();
 
 app.get("/", (req, res) => {
   // send index.html
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile(__dirname + "/public/");
 });
 
 app.get("/api/pages?:page", (req, res) => {
