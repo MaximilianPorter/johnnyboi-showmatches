@@ -29,7 +29,7 @@ Before, I was planning on running the server myself and just saving the cached d
 
 My current solution for displaying this information on a website is fetching the json file from [jsonbin.io](https://jsonbin.io/) and parsing the file in my front-end application.
 
-I don't really care, so this data is public at the moment through a **GET** request to [jsonbin.io](https://jsonbin.io/). If this gets too many calls though, I might have to disable it. This is what I do and you can find this information on [these docs](https://jsonbin.io/api-reference/bins/read).
+I don't really care, so this data is public at the moment through a **GET** request to [jsonbin.io](https://jsonbin.io/). If this gets too many calls though, I might have to disable it. I might end up making my own api so I can limit the requests a bit better and provide more attribution to liquipedia, but this is what I do and you can find this information on [these docs](https://jsonbin.io/api-reference/bins/read).
 
 ```js
 // just reading acess
@@ -54,7 +54,6 @@ async function getData() {
 {
   "record": {
     "JohnnyBoi_i/Show_Match/Daniel_vs_Evoh": {
-      // event name
       "pageUrl": "https://liquipedia.net/rocketleague/JohnnyBoi_i/Show_Match/Daniel_vs_Evoh",
       "teamInfo": [], // this includes team info if found
       "bracketInfo": [
@@ -87,7 +86,7 @@ async function getData() {
       },
       "formatInfo": "\n,1v1 Show Match\nThe match is Bo7,\n"
     }
-    // other pages
+    // ...other pages
   },
   "metadata": {
     "id": "641d2c16c0e7653a05902603",
@@ -100,4 +99,5 @@ async function getData() {
 
 ## Sidenotes
 
-The [server.js](server.js) isn't used currently. I used it to start, but then transitioned to this "file creation" method. (then transitioned to [jsonbin.io](https://jsonbin.io/))
+- The [server.js](server.js) isn't used currently. I used it to start, but then transitioned to this "file creation" method. (then transitioned to [jsonbin.io](https://jsonbin.io/))
+- I wish I had access to the replay files, but because liquipedia is community sourced, they don't have access in order to upload it. I would love to have the replay files, but for now my only solution might be to query ballchasing.com and attempt to find the showmatches on there. I already know they don't have all of them, so we'll see. idk.
