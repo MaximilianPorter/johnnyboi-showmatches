@@ -1,46 +1,22 @@
 "use strict";
+
 const jsdom = require("jsdom");
-const fs = require("fs");
-const secrets = require("./secrets.config");
+const secrets = require(`${__dirname}/secrets.config`);
 
 const binId = `641d2c16c0e7653a05902603`; // this doesn't matter because it's just an id to a private bin
 const binMasterKey = process.env.BIN_MASTER_KEY;
-const readAccessKey = `$2b$10$U8MIBtjyXw9ILlbM87hi3.qWMCh/V1hTtdghuJKwfSwMwBdyY77x6`; // this doesn't matter because it's a read-only key
+const readAccessKey = process.env.BIN_READ_ACCESS_KEY;
 
 const manualStopPoint = -1;
-
-// const filePath = "./showmatchInfo.json";
-
 let cachedPages = {};
-getData().then((data) => {
-  console.log("data", data);
-  cachedPages = data;
-});
-// if (!fs.existsSync(filePath)) {
-//   fs.writeFileSync(filePath, JSON.stringify({}));
-//   return;
-// } else {
-//   cachedPages = JSON.parse(fs.readFileSync(filePath));
-// }
-
-async function getData() {
-  const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
-    method: "GET",
-    headers: {
-      "X-Access-Key": `${readAccessKey}`,
-    },
-  });
-  const data = await response.json();
-  return data?.record;
-}
 
 const specificPagesTest = [
   "JohnnyBoi_i/1v1_World_Cup",
   "JohnnyBoi_i/Show_Match/zen_vs_Rezears",
 ];
-manuallyCachePages();
+// cachePages();
 
-/// WRITE CACHE TO FILE ON EXIT
+// #region  HANDLE EXIT PROCESSES
 process.stdin.resume();
 
 async function exitHandler(options, err) {
@@ -58,62 +34,76 @@ process.on("SIGINT", exitHandler.bind(null, { exit: true }));
 //catches uncaught exceptions
 process.on("uncaughtException", exitHandler.bind(null, { exit: true }));
 
-// FUNCTIONS
-async function manuallyCachePages(onlySpecificPages = []) {
-  const response = await fetch(
-    `https://liquipedia.net/rocketleague/api.php?action=parse&format=json&prop=text&page=JohnnyBoi_i/Broadcasts`
-  );
-  const text = await response.json();
-  const dom = new jsdom.JSDOM(`${text.parse.text["*"]}`);
+// #endregion
 
-  const pagesToCache = [
-    ...dom.window.document
-      .querySelector(".table-responsive")
-      .querySelectorAll("tr"),
-  ]
-    .map((row) => {
-      return [...row.querySelectorAll("a")]
-        .at(-1)
-        ?.href.split("/rocketleague/")[1];
-    })
-    .filter(
-      (page) =>
-        page !== undefined &&
-        (onlySpecificPages.length > 0 ? onlySpecificPages.includes(page) : true)
+////////////////// CACHING //////////////////
+async function cachePages(onlySpecificPages = []) {
+  try {
+    cachedPages = await getData();
+
+    const response = await fetch(
+      `https://liquipedia.net/rocketleague/api.php?action=parse&format=json&prop=text&page=JohnnyBoi_i/Broadcasts`
     );
+    const text = await response.json();
+    const dom = new jsdom.JSDOM(`${text.parse.text["*"]}`);
 
-  console.log(`caching ${pagesToCache.length} pages...`);
-  // start queue to rechache all pages in cachedPages
-  const queue = pagesToCache;
+    const pagesToCache = [
+      ...dom.window.document
+        .querySelector(".table-responsive")
+        .querySelectorAll("tr"),
+    ]
+      .map((row) => {
+        return [...row.querySelectorAll("a")]
+          .at(-1)
+          ?.href.split("/rocketleague/")[1];
+      })
+      .filter(
+        (page) =>
+          page !== undefined &&
+          (onlySpecificPages.length > 0
+            ? onlySpecificPages.includes(page)
+            : true)
+      );
 
-  // make countdown for next api call in 30 seconds
-  let countdown = 30;
-  const loadingBar = setInterval(() => {
-    process.stdout.write(countdown + " ");
-    countdown--;
-  }, 1000);
+    // start queue to rechache all pages in cachedPages (prioritize pages that are not cached)
+    const queue = pagesToCache.filter(
+      (page) => !cachedPages.hasOwnProperty(page)
+    );
+    if (queue.length <= 0) {
+      console.log(`all pages are cached, recaching all pages...`);
+      queue.push(...pagesToCache);
+    } else console.log(`caching ${queue.length} pages in queue...`);
 
-  let i = 0;
-  const interval = setInterval(() => {
-    if (
-      queue.length <= 0 ||
-      (manualStopPoint < 0 ? true : i >= manualStopPoint)
-    ) {
-      console.log("stopping interval");
-      clearInterval(interval);
-      clearInterval(loadingBar);
+    // make countdown for next api call in 30 seconds
+    let countdown = 30;
+    const loadingBar = setInterval(() => {
+      process.stdout.write(countdown + " ");
+      countdown--;
+    }, 1000);
 
-      // writeCacheToFile();
-      uploadData();
-      return;
-    }
+    let i = 0;
+    const interval = setInterval(async function () {
+      if (
+        queue.length <= 0 ||
+        (manualStopPoint < 0 ? false : i >= manualStopPoint)
+      ) {
+        console.log("stopping interval");
+        clearInterval(interval);
+        clearInterval(loadingBar);
 
-    cachePage(queue.shift());
+        // writeCacheToFile();
+        await uploadData();
+        return;
+      }
 
-    countdown = 30;
-    console.log(`\n\nnext api call in...`);
-    i++;
-  }, 30_000);
+      await cachePage(queue.shift());
+      countdown = 30;
+      console.log(`\n\n${queue.length} left : next api call in...`);
+      i++;
+    }, 30_000);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // function writeCacheToFile() {
@@ -123,7 +113,7 @@ async function manuallyCachePages(onlySpecificPages = []) {
 //   });
 // }
 
-function cachePage(page) {
+async function cachePage(page) {
   console.log("\ncaching page:", page);
   if (!page) return;
 
@@ -133,8 +123,14 @@ function cachePage(page) {
   });
 }
 
-////////////////// UPLOAD DATA TO BIN //////////////////
+////////////////// UPLOAD/GET DATA TO BIN //////////////////
 async function uploadData() {
+  if (
+    cachedPages === undefined ||
+    (cachedPages && Object.keys(cachedPages).length <= 0)
+  )
+    return;
+
   try {
     const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
       method: "PUT",
@@ -146,13 +142,28 @@ async function uploadData() {
     });
     const data = await response.json();
     console.log("upload successful");
-    console.log(data);
+    console.log(Object.keys(data.record), data.metadata);
   } catch (err) {
     console.log(err);
   }
 }
 
-////////////////// LIQUIPEDIA API //////////////////
+async function getData() {
+  try {
+    const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
+      method: "GET",
+      headers: {
+        "X-Access-Key": `${readAccessKey}`,
+      },
+    });
+    const data = await response.json();
+    return data?.record;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+////////////////// LIQUIPEDIA DOM MANIPULATION //////////////////
 
 function getTeamInfo(dom) {
   const teamInfo = [];
@@ -300,6 +311,7 @@ function getEventInfo(dom) {
   return eventInfo;
 }
 
+////////////////// LIQUIPEDIA API //////////////////
 async function getDataFromLiquipedia(page) {
   try {
     const response = await fetch(
@@ -343,3 +355,5 @@ async function getDataFromLiquipedia(page) {
     console.log(error);
   }
 }
+
+module.exports = { cachePages, getData };

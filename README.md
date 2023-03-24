@@ -25,24 +25,16 @@ I use [jsonbin.io](https://jsonbin.io/) to host the json file that is generated 
 
 Before, I was planning on running the server myself and just saving the cached data to a file on every github commit, so then I could access that data remotely via github link, but I wanted to make it run on it's own so I can access the data a little more seamlessly.
 
-## Displaying the front-end
+## Usage
 
 My current solution for displaying this information on a website is fetching the json file from [jsonbin.io](https://jsonbin.io/) and parsing the file in my front-end application.
 
-I don't really care, so this data is public at the moment through a **GET** request to [jsonbin.io](https://jsonbin.io/). If this gets too many calls though, I might have to disable it. I might end up making my own api so I can limit the requests a bit better and provide more attribution to liquipedia, but this is what I do and you can find this information on [these docs](https://jsonbin.io/api-reference/bins/read).
+I don't really care, so this data is public at the moment through a **GET** request to my own api endpoint: **http://localhost:3000/api/pages** with a query param just for `page='page_name'`. If this gets too many calls though (_which I doubt it will_), I might have to limit it further.
 
 ```js
 // just reading acess
 async function getData() {
-  const response = await fetch(
-    `https://api.jsonbin.io/v3/b/641d2c16c0e7653a05902603`,
-    {
-      method: "GET",
-      headers: {
-        "X-Access-Key": `$2b$10$U8MIBtjyXw9ILlbM87hi3.qWMCh/V1hTtdghuJKwfSwMwBdyY77x6`,
-      },
-    }
-  );
+  const response = await fetch(`http://localhost:3000/api/pages`);
   const data = await response.json();
   console.log(data);
 }
