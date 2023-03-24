@@ -108,5 +108,4 @@ async function getData() {
 
 ## Sidenotes
 
-- The [server.js](server.js) isn't used currently. I used it to start, but then transitioned to this "file creation" method. (then transitioned to [jsonbin.io](https://jsonbin.io/))
 - I wish I had access to the replay files, but because liquipedia is community sourced, they don't have access in order to upload it. I would love to have the replay files, but for now my only solution might be to query ballchasing.com and attempt to find the showmatches on there. I already know they don't have all of them, so we'll see. idk.
