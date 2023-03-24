@@ -1,16 +1,37 @@
+"use strict";
 const jsdom = require("jsdom");
 const fs = require("fs");
+const secrets = require("./secrets.config");
 
-const manualStopPoint = 5;
+const binId = `641d2c16c0e7653a05902603`; // this doesn't matter because it's just an id to a private bin
+const binMasterKey = process.env.BIN_MASTER_KEY;
+const readAccessKey = `$2b$10$U8MIBtjyXw9ILlbM87hi3.qWMCh/V1hTtdghuJKwfSwMwBdyY77x6`; // this doesn't matter because it's a read-only key
 
-const filePath = "./showmatchInfo.json";
+const manualStopPoint = -1;
+
+// const filePath = "./showmatchInfo.json";
 
 let cachedPages = {};
-if (!fs.existsSync(filePath)) {
-  fs.writeFileSync(filePath, JSON.stringify({}));
-  return;
-} else {
-  cachedPages = JSON.parse(fs.readFileSync(filePath));
+getData().then((data) => {
+  console.log("data", data);
+  cachedPages = data;
+});
+// if (!fs.existsSync(filePath)) {
+//   fs.writeFileSync(filePath, JSON.stringify({}));
+//   return;
+// } else {
+//   cachedPages = JSON.parse(fs.readFileSync(filePath));
+// }
+
+async function getData() {
+  const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
+    method: "GET",
+    headers: {
+      "X-Access-Key": `${readAccessKey}`,
+    },
+  });
+  const data = await response.json();
+  return data?.record;
 }
 
 const specificPagesTest = [
@@ -22,8 +43,9 @@ manuallyCachePages();
 /// WRITE CACHE TO FILE ON EXIT
 process.stdin.resume();
 
-function exitHandler(options, err) {
-  writeCacheToFile();
+async function exitHandler(options, err) {
+  // writeCacheToFile();
+  await uploadData();
   process.exit();
 }
 
@@ -81,7 +103,8 @@ async function manuallyCachePages(onlySpecificPages = []) {
       clearInterval(interval);
       clearInterval(loadingBar);
 
-      writeCacheToFile();
+      // writeCacheToFile();
+      uploadData();
       return;
     }
 
@@ -93,12 +116,12 @@ async function manuallyCachePages(onlySpecificPages = []) {
   }, 30_000);
 }
 
-function writeCacheToFile() {
-  fs.writeFileSync(filePath, JSON.stringify(cachedPages), function (err) {
-    if (err) return console.log(err);
-    console.log(`${filePath} written`);
-  });
-}
+// function writeCacheToFile() {
+//   fs.writeFileSync(filePath, JSON.stringify(cachedPages), function (err) {
+//     if (err) return console.log(err);
+//     console.log(`${filePath} written`);
+//   });
+// }
 
 function cachePage(page) {
   console.log("\ncaching page:", page);
@@ -109,6 +132,27 @@ function cachePage(page) {
     console.log(`cached page ${page} with ${Object.keys(data).length} entries`);
   });
 }
+
+////////////////// UPLOAD DATA TO BIN //////////////////
+async function uploadData() {
+  try {
+    const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": binMasterKey,
+      },
+      body: JSON.stringify(cachedPages),
+    });
+    const data = await response.json();
+    console.log("upload successful");
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+////////////////// LIQUIPEDIA API //////////////////
 
 function getTeamInfo(dom) {
   const teamInfo = [];

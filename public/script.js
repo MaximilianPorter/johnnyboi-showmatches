@@ -6,8 +6,14 @@ testButton.addEventListener("click", () => {
 
 async function getData() {
   const response = await fetch(
-    `https://raw.githubusercontent.com/MaximilianPorter/johnnyboi-showmatches/master/showmatchInfo.json`
+    `https://api.jsonbin.io/v3/b/641d2c16c0e7653a05902603`,
+    {
+      method: "GET",
+      headers: {
+        "X-Access-Key": `$2b$10$U8MIBtjyXw9ILlbM87hi3.qWMCh/V1hTtdghuJKwfSwMwBdyY77x6`,
+      },
+    }
   );
   const data = await response.json();
-  console.log(data);
+  console.log(data?.record);
 }
