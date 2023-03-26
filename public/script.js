@@ -6,10 +6,6 @@ const showmatchesList = document.querySelector(".showmatches-list");
 
 const dataEndpoint = "http://localhost:3000/api/pages";
 
-// youtube sub count endpoint: https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UCldqb1GljWZzaRVtYXfvlAg&key=AIzaSyBaPSsVF8YuiE3VPd0K9Cv1Vpe-QTW1vuY
-// twitch follower count endpoint:
-// twitter follower count endpoint:
-
 let currentViewingShowmatch = null;
 
 tabEls.forEach((tabEl) => {
