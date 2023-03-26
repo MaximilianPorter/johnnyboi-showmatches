@@ -32,7 +32,7 @@ My current solution for displaying this information on a website is fetching the
 I don't really care, so this data is public at the moment through a **GET** request to my own api endpoint: **http://localhost:3000/api/pages** with a query param just for `page='page_name'`. If this gets too many calls though (_which I doubt it will_), I might have to limit it further.
 
 ```js
-// just reading acess
+// just reading access
 async function getData() {
   const response = await fetch(`http://localhost:3000/api/pages`);
   const data = await response.json();
