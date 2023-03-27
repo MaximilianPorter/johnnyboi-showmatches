@@ -12,6 +12,13 @@
       rel="stylesheet"
     />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="./general.css" />
     <link rel="stylesheet" href="./style.css" />
 
@@ -20,6 +27,415 @@
     <title>JOHNNY BOI_I</title>
   </head>
   <body>
-    <button class="test-request-data">REQUEST DATA</button>
+    <header>
+      <div class="header-img">
+        <img
+          class="bg-img"
+          src="https://yt3.googleusercontent.com/hHzHbeZotUnvyGclDd-rk8iUAB8tVzuqzzaC08PMD5IkVYkHHSWuoEnYCg-EO2b1f_blWEYxPA=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
+          alt=""
+          srcset=""
+          loading="lazy"
+        />
+      </div>
+      <div class="profile-img-section">
+        <img
+          class="profile-img"
+          src="https://yt3.googleusercontent.com/ytc/AL5GRJVPssKfs-g3BCEK4gXRV_nElR4JyjCXj59nbQVs1g=s176-c-k-c0x00ffffff-no-rj"
+          alt="JohnnyBoi Profile picture"
+        />
+        <div class="profile-info">
+          <p class="profile-name">
+            JohnnyBoi_i
+            <ion-icon class="verified-icon" name="checkmark-circle"></ion-icon>
+          </p>
+          <div>
+            <div class="profile-subscribers" title="youtube">
+              <a
+                href="https://www.youtube.com/@JohnnyBoi_i"
+                class="social-link"
+                title="youtube"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ion-icon name="logo-youtube"></ion-icon>
+              </a>
+              <p class="profile-subscribers-count">--- subscribers</p>
+            </div>
+            <div class="profile-subscribers" title="twitch">
+              <a
+                href="https://www.twitch.tv/johnnyboi_i/"
+                class="social-link"
+                title="twitch"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ion-icon name="logo-twitch"></ion-icon>
+              </a>
+              <p class="profile-subscribers-count">--- followers</p>
+            </div>
+            <div class="profile-subscribers" title="twitter">
+              <a
+                href="https://twitter.com/johnnyboi_i"
+                class="social-link"
+                title="twitter"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+              <p class="profile-subscribers-count">--- followers</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="socials"></div> -->
+      </div>
+    </header>
+
+    <div class="page-tabs">
+      <button class="tab-button" title="home" aria-current="true">HOME</button>
+      <button class="tab-button" title="videos" aria-current="false">
+        VIDEOS
+      </button>
+      <button class="tab-button" title="showmatches" aria-current="false">
+        SHOWMATCHES
+      </button>
+      <button class="tab-button" title="about" aria-current="false">
+        ABOUT
+      </button>
+      <button class="tab-button" title="api" aria-current="false">API</button>
+    </div>
+
+    <main>
+      <div class="modal-sections">
+        <section class="main-section" title="home" aria-current="true">
+          <div class="home-content">
+            <div class="home-content-section recent-showmatches">
+              <h2 class="home-content-section-title">Recent Showmatches</h2>
+              <div class="showmatches-list">
+                <div class="showmatch" aria-current="false">
+                  <div class="showmatch-info-showing">
+                    <p class="showmatch-date">1/23/23</p>
+                    <div class="showmatch-title">
+                      JohnnyBoi_i Show Match: Daniel vs Evoh
+                    </div>
+                    <button type="button" class="showmatch-button-results">
+                      VIEW RESULTS
+                    </button>
+                  </div>
+                  <div class="showmatch-results">
+                    <div class="showmatch-player-left">Player 1</div>
+                    <div class="showmatch-player-right">Player 2</div>
+                  </div>
+                </div>
+                <div class="showmatch" aria-current="true">
+                  <div class="showmatch-info-showing">
+                    <p class="showmatch-date">1/23/23</p>
+                    <div class="showmatch-title">
+                      JohnnyBoi_i Show Match: Daniel vs Evoh
+                    </div>
+                    <button type="button" class="showmatch-button-results">
+                      VIEW RESULTS
+                    </button>
+                  </div>
+                  <div class="showmatch-results">
+                    <p class="showmatch-results-title">Games</p>
+                    <div class="showmatch-game-results">
+                      <div class="showmatch-player-left showmatch-winner">
+                        Player 1 with longer name
+                      </div>
+                      <div class="showmatch-matches">
+                        <div class="showmatch-match">
+                          <p class="score-left game-winning-score">10</p>
+                          <p class="map">Mannfield</p>
+                          <p class="score-right">10</p>
+                        </div>
+                        <div class="showmatch-match">
+                          <p class="score-left">10</p>
+                          <p class="map">something a bit longer</p>
+                          <p class="score-right">10</p>
+                        </div>
+                        <div class="showmatch-match">
+                          <p class="score-left">10</p>
+                          <p class="map">Mannfield</p>
+                          <p class="score-right">10</p>
+                        </div>
+                        <div class="showmatch-match">
+                          <p class="score-left">10</p>
+                          <p class="map">Mannfield</p>
+                          <p class="score-right">10</p>
+                        </div>
+                      </div>
+                      <div class="showmatch-player-right">Player 2</div>
+                    </div>
+                    <p class="showmatch-results-title">Player History</p>
+                    <div class="showmatch-player-history">
+                      <p class="history-score-left">3</p>
+                      <p>-</p>
+                      <p class="history-score-right">6</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="showmatch">
+                  <p class="showmatch-date">1/23/23</p>
+                  <div class="showmatch-title">
+                    JohnnyBoi_i Show Match: Daniel vs Evoh
+                  </div>
+                  <button type="button" class="showmatch-button-results">
+                    VIEW RESULTS
+                  </button>
+                </div>
+                <div class="showmatch">
+                  <p class="showmatch-date">1/23/23</p>
+                  <div class="showmatch-title">
+                    JohnnyBoi_i Show Match: Daniel vs Evoh
+                  </div>
+                  <button type="button" class="showmatch-button-results">
+                    VIEW RESULTS
+                  </button>
+                </div>
+                <div class="showmatch">
+                  <p class="showmatch-date">1/23/23</p>
+                  <div class="showmatch-title">
+                    JohnnyBoi_i Show Match: Daniel vs Evoh
+                  </div>
+                  <button type="button" class="showmatch-button-results">
+                    VIEW RESULTS
+                  </button>
+                </div>
+                <div class="showmatch">
+                  <p class="showmatch-date">1/23/23</p>
+                  <div class="showmatch-title">
+                    JohnnyBoi_i Show Match: Daniel vs Evoh
+                  </div>
+                  <button type="button" class="showmatch-button-results">
+                    VIEW RESULTS
+                  </button>
+                </div>
+                <div class="showmatch">
+                  <p class="showmatch-date">1/23/23</p>
+                  <div class="showmatch-title">
+                    JohnnyBoi_i Show Match: Daniel vs Evoh
+                  </div>
+                  <button type="button" class="showmatch-button-results">
+                    VIEW RESULTS
+                  </button>
+                </div>
+              </div>
+              <div class="show-all">
+                <button class="show-all-button">
+                  <p>SHOW ALL SHOWMATCHES</p>
+                  <ion-icon name="chevron-down"></ion-icon>
+                </button>
+              </div>
+            </div>
+            <div class="home-content-section recent-videos">
+              <h2 class="home-content-section-title">Recent Videos</h2>
+              <div class="recent-videos-list">
+                <div class="video">
+                  <div class="video-thumbnail">
+                    <div class="thumbnail-loading"></div>
+                  </div>
+                  <p class="video-title">Title</p>
+                  <div class="video-info">
+                    <p class="video-views">100k views &mdash;</p>
+                    <p class="video-post-date">1 month ago</p>
+                  </div>
+                </div>
+                <div class="video">
+                  <div class="video-thumbnail">
+                    <div class="thumbnail-loading"></div>
+                  </div>
+                  <p class="video-title">Title</p>
+                  <div class="video-info">
+                    <p class="video-views">100k views &mdash;</p>
+                    <p class="video-post-date">1 month ago</p>
+                  </div>
+                </div>
+                <div class="video">
+                  <div class="video-thumbnail">
+                    <div class="thumbnail-loading"></div>
+                  </div>
+                  <p class="video-title">Title</p>
+                  <div class="video-info">
+                    <p class="video-views">100k views &mdash;</p>
+                    <p class="video-post-date">1 month ago</p>
+                  </div>
+                </div>
+                <div class="video">
+                  <div class="video-thumbnail">
+                    <div class="thumbnail-loading"></div>
+                  </div>
+                  <p class="video-title">Title</p>
+                  <div class="video-info">
+                    <p class="video-views">100k views &mdash;</p>
+                    <p class="video-post-date">1 month ago</p>
+                  </div>
+                </div>
+                <div class="video">
+                  <div class="video-thumbnail">
+                    <div class="thumbnail-loading"></div>
+                  </div>
+                  <p class="video-title">Title</p>
+                  <div class="video-info">
+                    <p class="video-views">100k views &mdash;</p>
+                    <p class="video-post-date">1 month ago</p>
+                  </div>
+                </div>
+              </div>
+              <div class="show-all">
+                <button class="show-all-button">
+                  <p>SHOW ALL VIDEOS</p>
+                  <ion-icon name="chevron-down"></ion-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="main-section" title="videos" aria-current="false">
+          <div class="videos-content">
+            <div class="videos-list">
+              <div class="video">
+                <div class="video-thumbnail">
+                  <div class="thumbnail-loading"></div>
+                </div>
+                <p class="video-title">Title</p>
+                <div class="video-info">
+                  <p class="video-views">100k views &mdash;</p>
+                  <p class="video-post-date">1 month ago</p>
+                </div>
+              </div>
+              <div class="video">
+                <div class="video-thumbnail">
+                  <div class="thumbnail-loading"></div>
+                </div>
+                <p class="video-title">Title</p>
+                <div class="video-info">
+                  <p class="video-views">100k views &mdash;</p>
+                  <p class="video-post-date">1 month ago</p>
+                </div>
+              </div>
+              <div class="video">
+                <div class="video-thumbnail">
+                  <div class="thumbnail-loading"></div>
+                </div>
+                <p class="video-title">Title</p>
+                <div class="video-info">
+                  <p class="video-views">100k views &mdash;</p>
+                  <p class="video-post-date">1 month ago</p>
+                </div>
+              </div>
+              <div class="video">
+                <div class="video-thumbnail">
+                  <div class="thumbnail-loading"></div>
+                </div>
+                <p class="video-title">Title</p>
+                <div class="video-info">
+                  <p class="video-views">100k views &mdash;</p>
+                  <p class="video-post-date">1 month ago</p>
+                </div>
+              </div>
+              <div class="video">
+                <div class="video-thumbnail">
+                  <div class="thumbnail-loading"></div>
+                </div>
+                <p class="video-title">Title</p>
+                <div class="video-info">
+                  <p class="video-views">100k views &mdash;</p>
+                  <p class="video-post-date">1 month ago</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="main-section" title="showmatches" aria-current="false">
+          <div class="showmatches-list">
+            <div class="showmatch">
+              <p class="showmatch-date">1/23/23</p>
+              <div class="showmatch-title">
+                JohnnyBoi_i Show Match: Daniel vs Evoh
+              </div>
+              <button type="button" class="showmatch-button-results">
+                VIEW RESULTS
+              </button>
+            </div>
+            <div class="showmatch">
+              <p class="showmatch-date">1/23/23</p>
+              <div class="showmatch-title">
+                JohnnyBoi_i Show Match: Daniel vs Evoh
+              </div>
+              <button type="button" class="showmatch-button-results">
+                VIEW RESULTS
+              </button>
+            </div>
+            <div class="showmatch">
+              <p class="showmatch-date">1/23/23</p>
+              <div class="showmatch-title">
+                JohnnyBoi_i Show Match: Daniel vs Evoh
+              </div>
+              <button type="button" class="showmatch-button-results">
+                VIEW RESULTS
+              </button>
+            </div>
+            <div class="showmatch">
+              <p class="showmatch-date">1/23/23</p>
+              <div class="showmatch-title">
+                JohnnyBoi_i Show Match: Daniel vs Evoh
+              </div>
+              <button type="button" class="showmatch-button-results">
+                VIEW RESULTS
+              </button>
+            </div>
+            <div class="showmatch">
+              <p class="showmatch-date">1/23/23</p>
+              <div class="showmatch-title">
+                JohnnyBoi_i Show Match: Daniel vs Evoh
+              </div>
+              <button type="button" class="showmatch-button-results">
+                VIEW RESULTS
+              </button>
+            </div>
+            <div class="showmatch">
+              <p class="showmatch-date">1/23/23</p>
+              <div class="showmatch-title">
+                JohnnyBoi_i Show Match: Daniel vs Evoh
+              </div>
+              <button type="button" class="showmatch-button-results">
+                VIEW RESULTS
+              </button>
+            </div>
+            <div class="showmatch">
+              <p class="showmatch-date">1/23/23</p>
+              <div class="showmatch-title">
+                JohnnyBoi_i Show Match: Daniel vs Evoh
+              </div>
+              <button type="button" class="showmatch-button-results">
+                VIEW RESULTS
+              </button>
+            </div>
+          </div>
+        </section>
+        <section
+          class="main-section"
+          title="about"
+          aria-current="false"
+        ></section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-content"></div>
+    </footer>
+    <!-- <button class="test-request-data">REQUEST DATA</button> -->
+
+    <!-----------------------------SCRIPTS--------------------------->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
   </body>
 </html>
