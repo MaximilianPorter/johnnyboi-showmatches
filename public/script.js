@@ -2,7 +2,7 @@ const tabEls = document.querySelectorAll(".tab-button");
 const mainEl = document.querySelector("main");
 const mainSections = document.querySelectorAll(".main-section");
 
-const showmatchesList = document.querySelector(".showmatches-list");
+const showmatchesList = document.querySelectorAll(".showmatches-list");
 
 const subscriberCountEls = document.querySelectorAll(".profile-subscribers");
 
@@ -32,21 +32,23 @@ window.addEventListener("resize", () => {
   scrollTabModal(getActiveTabPage(), "auto");
 });
 
-showmatchesList.addEventListener("click", (e) => {
-  const showmatch = e.target.closest(".showmatch");
-  if (!showmatch) return;
+showmatchesList.forEach((showmatchList) =>
+  showmatchList.addEventListener("click", (e) => {
+    const showmatch = e.target.closest(".showmatch");
+    if (!showmatch) return;
 
-  if (currentViewingShowmatch && currentViewingShowmatch !== showmatch) {
-    currentViewingShowmatch.ariaCurrent = "false";
-  }
+    if (currentViewingShowmatch && currentViewingShowmatch !== showmatch) {
+      currentViewingShowmatch.ariaCurrent = "false";
+    }
 
-  showmatch.ariaCurrent = showmatch.ariaCurrent === "true" ? "false" : "true";
-  if (showmatch.ariaCurrent === "true") {
-    currentViewingShowmatch = showmatch;
-  } else {
-    currentViewingShowmatch = null;
-  }
-});
+    showmatch.ariaCurrent = showmatch.ariaCurrent === "true" ? "false" : "true";
+    if (showmatch.ariaCurrent === "true") {
+      currentViewingShowmatch = showmatch;
+    } else {
+      currentViewingShowmatch = null;
+    }
+  })
+);
 
 fetchFollowerCounts().then((data) => {
   subscriberCountEls.forEach((el) => {

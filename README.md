@@ -19,6 +19,12 @@ const dom = new jsdom.JSDOM(`${text.parse.text["*"]}`);
 
 And then I do some querying of classes and id's to get the stuff I need and botta boom botta bang it's parsed into json.
 
+## Website Demo
+
+![demo of website](./media/websiteDemo.gif)
+
+This is all just example text. This idea stemmed from liquipedia being so poorly designed and not having the VODs for the showmatches.
+
 ## Hosting
 
 I use [jsonbin.io](https://jsonbin.io/) to host the json file that is generated from [saveShowmatches.js](saveShowmatches.js). I don't have this javascript file running on a server right now, but it should work to get the data from liquipedia and upload the json.
