@@ -47,6 +47,10 @@
   font-size: 5rem;
   font-weight: 700;
   color: var(--text);
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 .profile-subscribers {
   display: flex;
@@ -55,8 +59,10 @@
   font-size: 2rem;
   font-weight: 700;
   color: var(--text);
-  opacity: 0.5;
   margin-left: 1rem;
+}
+.profile-subscribers-count {
+  opacity: 0.5;
 }
 .verified-icon {
   font-size: 4rem;
@@ -78,14 +84,28 @@
   color: var(--text);
   display: flex;
   align-items: center;
+  opacity: 0.5;
 }
+
+.social-link[title="youtube"] {
+  color: #ff0000;
+}
+.social-link[title="twitch"] {
+  color: #6441a5;
+}
+.social-link[title="twitter"] {
+  color: #1da1f2;
+}
+
 .social-link:active,
 .social-link:focus {
   color: var(--primary);
+  opacity: 1;
 }
 .social-link:hover {
-  color: var(--primary-light);
+  /* color: var(--primary-light); */
   transform: scale(1.1);
+  opacity: 1;
 }
 
 main {
@@ -164,7 +184,7 @@ main {
 }
 .home-content-section-title {
   font-size: 2.4rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.6rem;
 }
 .home-content-section-title::after {
   content: "";
@@ -173,7 +193,7 @@ main {
   height: 0.4rem;
   border-radius: 9999px;
   background-color: var(--text);
-  margin-top: 0.5rem 0;
+  margin-top: 0.5rem;
 }
 
 .show-all {

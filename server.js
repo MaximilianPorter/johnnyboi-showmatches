@@ -18,6 +18,8 @@ const limiter = rateLimit({
     status: "error",
     message: "Too many requests, chill out.",
   },
+  // ignore localhost
+  skip: (req, res) => req.headers.host.startsWith("localhost"),
 });
 
 app.use(cors());
@@ -38,6 +40,8 @@ app.use(limiter);
 
 // cache data
 // cacheData();
+let youtubeSubCount, twitchFollowerCount, twitterFollowerCount;
+// setFollowerCounts();
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/");
@@ -83,6 +87,48 @@ app.get("/api/pages?:page", (req, res) => {
   });
 });
 
+app.get("/api/userinfo/links", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      youtube: youtubeSubCount,
+      twitter: twitterFollowerCount,
+      twitch: twitchFollowerCount,
+    },
+  });
+});
+
 server.listen(process.env.PORT || 3000, () => {
   console.log("Server is running...");
 });
+
+function setFollowerCounts() {
+  awaitFollowerCounts().then((data) => {
+    youtubeSubCount = data.youtube;
+    twitchFollowerCount = data.twitch;
+    twitterFollowerCount = data.twitter;
+  });
+}
+async function awaitFollowerCounts() {
+  try {
+    const {
+      getYoutubeSubscribers,
+      getTwitchFollowers,
+      getTwitterFollowers,
+    } = require(`${__dirname}/followerCounting.js`);
+
+    const data = await Promise.all([
+      getYoutubeSubscribers(),
+      getTwitchFollowers(),
+      getTwitterFollowers(),
+    ]);
+
+    return {
+      youtube: data[0],
+      twitch: data[1],
+      twitter: data[2],
+    };
+  } catch (err) {
+    console.log(err);
+  }
+}
