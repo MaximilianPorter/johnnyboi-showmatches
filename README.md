@@ -112,6 +112,9 @@ async function getData() {
 }
 ```
 
+## Why?
+I don't think liquipedia displays their information in a satisfying way. I get it, it's just a wikipedia type website where users can easily update the data, but I wanted the info displayed better. There is also a lack of information on the JohnnyBoi showmatches all in one page. I want the VOD(s) for the showmatches so I can just click on the match and go watch it. And maybe include the .replay file. But I know the community doesn't have access to that as easily as maybe the VODs, but it would still be cool to have it all in one place for both viewability and data analytics.
+
 ## Sidenotes
 
 - I wish I had access to the replay files, but because liquipedia is community sourced, they don't have access in order to upload it. I would love to have the replay files, but for now my only solution might be to query ballchasing.com and attempt to find the showmatches on there. I already know they don't have all of them, so we'll see. idk.
